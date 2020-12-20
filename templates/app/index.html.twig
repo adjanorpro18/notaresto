@@ -24,6 +24,8 @@
 
 				<li>
 					{{restaurant.name | upper}}
+					(Moyenne de
+					{{ restaurant.averageRating | number_format(2, ',') }})
 					<br>
 					<small>
 						{{restaurant.description}}
