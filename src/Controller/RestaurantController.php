@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Restaurant;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,10 +15,17 @@ class RestaurantController extends AbstractController
      * Affiche la liste des restaurants
      * @Route("/restaurant", name="restaurant_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        //Tri qui permet de récuperer les données selon le filtre 
+
+        $restaurants = $this->getDoctrine()->getRepository(Restaurant::class)->findBy([], ['name' => 'ASC']);
+
+        $restaurants = $paginator->paginate($restaurants, $request->query->getInt('page', 1), 10);
+
+
         return $this->render('restaurant/index.html.twig', [
-            'controller_name' => 'RestaurantController',
+            'restaurants' => $restaurants,
         ]);
     }
 

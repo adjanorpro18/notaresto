@@ -170,8 +170,9 @@ class Restaurant
         return $this;
     }
     //fonction qui calcule la valeur moyenne des review du restaurant
+    //pour eviter d'avoir un bug avec les restaurants qui n'ont pas  de note 
 
-    public function getAverageRating()
+    public function getAverageRating(): float
     {
         $sum = 0;
         $total = 0;
@@ -180,7 +181,10 @@ class Restaurant
             $sum += $review->getRating();
             $total++;
         }
-
-        return $sum / $total;
+        if ($total > 0) {
+            return $sum / $total;
+        } else {
+            return 0;
+        }
     }
 }
