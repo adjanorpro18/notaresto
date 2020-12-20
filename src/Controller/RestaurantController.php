@@ -22,7 +22,7 @@ class RestaurantController extends AbstractController
 
     /**
      * Affiche un restaurant
-     * @Route("/restaurant/{restaurant}", name="restaurant_show", methods={"GET"}, requirements={"restaurant" = "\d+"})
+     * @Route("/restaurant/{restaurant.id}", name="restaurant_show", methods={"GET"}, requirements={"restaurant.id" = "\d+"})
      * @param restaurant $restaurant
      */
     public function show(restaurant $restaurant)
@@ -57,7 +57,7 @@ class RestaurantController extends AbstractController
     }
 
     /**
-     * Supprime la ville
+     * Supprime le restaurant
      * @Route("/restaurant/{restaurant}", name="restaurant_delete", methods={"DELETE"})
      * @param restaurant $restaurant
      */

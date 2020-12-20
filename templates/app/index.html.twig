@@ -15,7 +15,7 @@
 						{{ restaurant.description }}
 					</p>
 					<p>
-						<a href="#" class="btn btn-success my-2">Donner un avis !</a>
+						<a href="{{path('restaurant_show', {'restaurant': 'restaurant.id'})}}" class="btn btn-success my-2">Donner un avis !</a>
 					</p>
 				</div>
 			{% endif %}

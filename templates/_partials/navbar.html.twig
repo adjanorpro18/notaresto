@@ -11,10 +11,10 @@
 					Restaurants
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="#">Voir mes restaurants</a>
-					<a class="dropdown-item" href="#">Voir tous les restaurants</a>
+					<a class="dropdown-item" href="{{path('restaurant_index')}}">Voir mes restaurants</a>
+					<a class="dropdown-item" href="{{path('restaurant_index')}}">Voir tous les restaurants</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">Créer un restaurant</a>
+					<a class="dropdown-item" href="{{path('restaurant_new')}}">Créer un restaurant</a>
 				</div>
 			</li>
 
@@ -23,7 +23,7 @@
 					Utilisateurs
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="#">Voir tous les utilisateurs</a>
+					<a class="dropdown-item" href="{{path('user_index')}}">Voir tous les utilisateurs</a>
 				</div>
 			</li>
 		</ul>
@@ -31,18 +31,25 @@
 
 	<div class="collapse navbar-collapse justify-content-end">
 		<ul class="navbar-nav ml-auto">
-			<li class="nav-item">
-				<a class="nav-link " href="{{path('app_index')}}" tabindex="-1" aria-disabled="true">Bienvenue, info@adjanorpro.com</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{path('app_logout')}}" tabindex="-1" aria-disabled="true">Déconnexion</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{path('app_login')}}" tabindex="-1" aria-disabled="true">Se connecter</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{path('app_register')}}" tabindex="-1" aria-disabled="true">Créer un compte</a>
-			</li>
+			<form class="form-inline my-2 my-lg-0">
+				<input class="form-control form-control-sm mr-sm-2" type="search" placeholder="Code postal..." aria-label="Search">
+				<button class="btn btn-outline-primary btn-sm my-2 my-sm-0" type="submit">Search</button>
+			</form>
+			{% if app.user %}
+				<li class="nav-item">
+					<a class="nav-link " href="{{path('app_index')}}" tabindex="-1" aria-disabled="true">Bienvenue, info@adjanorpro.com</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('app_logout')}}" tabindex="-1" aria-disabled="true">Déconnexion</a>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('app_login')}}" tabindex="-1" aria-disabled="true">Se connecter</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('app_register')}}" tabindex="-1" aria-disabled="true">Créer un compte</a>
+				</li>
+			{% endif %}
 		</ul>
 	</div>
 
