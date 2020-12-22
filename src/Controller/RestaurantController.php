@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Restaurant;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,11 +32,15 @@ class RestaurantController extends AbstractController
 
     /**
      * Affiche un restaurant
-     * @Route("/restaurant/{restaurant.id}", name="restaurant_show", methods={"GET"}, requirements={"restaurant.id" = "\d+"})
-     * @param restaurant $restaurant
+     * @Route("/restaurant/{restaurant}", name="restaurant_show", methods={"GET"}, requirements={"restaurant" = "\d+"})
+     * @param Restaurant $restaurant
+     * @return Response
      */
-    public function show(restaurant $restaurant)
+    public function show(Restaurant $restaurant)
     {
+        return $this->render('restaurant/show.html.twig', [
+            'restaurant' => $restaurant
+        ]);
     }
 
     /**
@@ -44,6 +49,11 @@ class RestaurantController extends AbstractController
      */
     public function new()
     {
+        $cities = $this->getDoctrine()->getRepository(City::class)->findAll();
+
+        return $this->render('restaurant/form.html.twig', [
+            'cities' => $cities
+        ]);
     }
 
 
