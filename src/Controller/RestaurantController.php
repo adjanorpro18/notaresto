@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\City;
 use App\Entity\Restaurant;
+use App\Form\RestaurantType;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,14 +46,28 @@ class RestaurantController extends AbstractController
 
     /**
      * Affiche le formulaire de creation de restaurant
-     * @Route("/restaurant/new", name="restaurant_new", methods={"GET"})
+     * @Route("/restaurant/new", name="restaurant_new", methods={"GET", "POST"})
      */
-    public function new()
+    public function new(Request $request, EntityManagerInterface $entityMananger)
     {
-        $cities = $this->getDoctrine()->getRepository(City::class)->findAll();
+        $restaurant = new Restaurant();
+        $form = $this->createForm(RestaurantType::class, $restaurant);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $restaurant = $form->getData();
+            // On veut que le user du restaurant soit le user connecté (on l'a grâce à $this->getUser())
+            $restaurant->setUser($this->getUser());
+
+            $entityMananger->persist($restaurant);
+            $entityMananger->flush();
+
+            return $this->redirectToRoute('restaurant_index');
+        }
+
 
         return $this->render('restaurant/form.html.twig', [
-            'cities' => $cities
+            'form' => $form->createView()
         ]);
     }
 
