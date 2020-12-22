@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Restaurant;
 use App\Repository\CityRepository;
+use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -13,10 +14,12 @@ class RestaurantFixtures extends Fixture implements DependentFixtureInterface
 {
     //les restauants necessitent la cle ettrangère ville donc on a besoin de son repository
     private $cityRepository;
+    private $userRepository;
 
-    public function __construct(CityRepository $cityRepository)
+    public function __construct(CityRepository $cityRepository, UserRepository $userRepository)
     {
         $this->cityRepository = $cityRepository;
+        $this->userRepository = $userRepository;
     }
 
 
@@ -29,6 +32,7 @@ class RestaurantFixtures extends Fixture implements DependentFixtureInterface
             $restaurant->setName($faker->company);
             $restaurant->setDescription($faker->text(500));
             $restaurant->setCity($this->cityRepository->find(rand(1, 1000)));
+            $restaurant->setUser($this->userRepository->findOneBy(['email' => 'restaurateur@notaresto.com']));
 
             $manager->persist($restaurant);
         }
